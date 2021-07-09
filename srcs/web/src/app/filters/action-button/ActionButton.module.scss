@@ -1,0 +1,13 @@
+@import "../../../styleguide/colors";
+
+.actionButton {
+  display: block;
+  border: 1px solid rgba($base03, 0.4);
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: inset 0px 0px 3px rgba($base03, 0.4);
+  }
+}

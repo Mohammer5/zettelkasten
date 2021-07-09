@@ -1,0 +1,16 @@
+.actions {
+  display: flex;
+  height: 60px;
+  box-shadow: 0 0 4px 0 rgba(0,0,0,0.6);
+  padding: 0 10px;
+  align-items: center;
+  justify-content: flex-end;
+
+  :global(button) {
+    margin-right: 12px;
+
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}

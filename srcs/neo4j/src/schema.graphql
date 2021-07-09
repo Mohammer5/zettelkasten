@@ -1,0 +1,31 @@
+type Tag {
+  id: ID! @id
+  zettel: [Zettel!] @relationship(type: "HAS", direction: IN)
+  label: ID!
+}
+
+type Source {
+  id: ID! @id
+  label: String
+  link: ID # optional
+  file: ID # optional local file path / file address
+  notes: String # optional
+  zettel: [Zettel!] @relationship(type: "HAS", direction: IN)
+}
+
+type Zettel {
+  id: ID! @id
+  tags: [Tag!]! @relationship(type: "HAS", direction: OUT)
+  title: String!
+  content: String!
+  sources: [Source!] @relationship(type: "HAS", direction: OUT)
+  follows: Zettel @relationship(type: "FOLLOWS", direction: OUT)
+  followedBy: Zettel! @relationship(type: "FOLLOWS", direction: IN)
+  kasten: [Kasten!] @relationship(type: "CONTAINS", direction: IN)
+}
+
+type Kasten {
+  id: ID! @id
+  label: String!
+  zettel: [Zettel!]! @relationship(type: "CONTAINS", direction: OUT)
+}

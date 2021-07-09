@@ -1,0 +1,43 @@
+@import "../../styleguide/colors";
+
+.zettelTeaser {
+  display: grid;
+  grid-template-areas:
+    'title'
+    'content'
+    'tags';
+  grid-template-rows: 38px auto 38px;
+
+  border: 1px solid rgba($base03, 0.4);
+  border-radius: 4px;
+  box-shadow: 2px 2px 4px -2px rgba(0,0,0,0.6);
+
+  & + & {
+    margin-top: 16px;
+  }
+}
+
+.zettelTeaserTitle {
+  grid-area: title;
+  margin: 0;
+  line-height: 38px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-bottom: 1px solid rgba($base03, 0.4);
+  padding: 0 8px;
+  font-size: 18px;
+}
+
+.zettelTeaserContent {
+  grid-area: content;
+  margin: 8px;
+  font-size: 14px;
+  max-height: 140px - 2 * 38px;
+  overflow: hidden;
+}
+
+.zettelTeaserTags {
+  grid-area: tags;
+  padding: 7px;
+  // border-top: 1px solid rgba($base03, 0.4);
+}

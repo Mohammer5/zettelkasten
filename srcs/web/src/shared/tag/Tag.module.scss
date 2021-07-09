@@ -1,0 +1,21 @@
+@import "../../styleguide/colors.scss";
+
+.tag {
+  display: inline-block;
+  height: 24px;
+  white-space: nowrap;
+  max-width: 100px;
+  padding: 0 4px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  line-height: 24px;
+  font-size: 12px;
+  background: $orange;
+  margin-right: 5px;
+  color: $base2;
+  border-radius: 4px;
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

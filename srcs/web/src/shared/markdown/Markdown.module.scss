@@ -1,0 +1,11 @@
+.markdown :global(h1),
+.markdown :global(h2),
+.markdown :global(h3),
+.markdown :global(h4),
+.markdown :global(h5),
+.markdown :global(h6),
+.markdown :global(p),
+.markdown :global(ul),
+.markdown :global(ol) {
+  margin-top: 0;
+}

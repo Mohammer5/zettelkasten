@@ -1,43 +1,28 @@
 {
-  "name": "zettelkasten",
-  "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@dhis2/cli-style": "^9.0.1",
-    "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^11.1.0",
-    "@testing-library/user-event": "^12.1.10",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "4.0.3",
-    "web-vitals": "^1.0.1"
-  },
+  "workspaces": [
+    "./srcs/*"
+  ],
+  "author": "Jan-Gerke Salomon <jgs.salomon@gmail.com>",
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "db:start": "yarn workspace neo4j db:start",
+    "db:stop": "yarn workspace neo4j db:stop",
+    "start:server": "yarn workspace neo4j start",
+    "start:client": "yarn workspace web start",
+    "wait:db": "wait-on http-get://localhost:7474/browser && echo 'db ready'",
+    "wait:server": "wait-on http-get://localhost:4001/graphql?query={__schema{queryType{name}}}",
+    "wait": "yarn wait:db && yarn wait:server",
+    "start": "concurrently --names server,client 'yarn db:start && yarn start:server' 'yarn wait:server && yarn start:client'",
     "lint": "yarn d2-style check",
     "lint:staged": "yarn lint --staged",
     "format": "yarn d2-style apply",
     "format:staged": "yarn format --staged"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "@dhis2/cli-style": "^9.0.1"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "concurrently": "^6.2.0",
+    "wait-on": "^6.0.0"
   }
 }
