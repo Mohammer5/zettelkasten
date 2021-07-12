@@ -8,7 +8,7 @@
     "db:start": "yarn workspace neo4j db:start",
     "db:stop": "yarn workspace neo4j db:stop",
     "start:server": "yarn workspace neo4j start",
-    "start:client": "yarn workspace web start",
+    "start:client": "BROWSER=none yarn workspace web start",
     "wait:db": "wait-on http-get://localhost:7474/browser && echo 'db ready'",
     "wait:server": "wait-on http-get://localhost:4001/graphql?query={__schema{queryType{name}}}",
     "wait": "yarn wait:db && yarn wait:server",

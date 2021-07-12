@@ -11,22 +11,25 @@ const {
 } = require('./constants')
 const { exec } = require('./exec')
 
-dotenv.config();
+dotenv.config()
 
 const run = async () => {
   await exec('which', ['docker']).catch(e => {
     console.error(e)
-    console.error(new Error('"docker" does not find a path'))
+    console.error(new Error('"docker" not found in $PATH'))
     process.exit(1)
   })
 
   await exec('mkdir', ['-p', DATA_PATH])
   await exec('mkdir', ['-p', LOGS_PATH])
 
-  const oldContainerID = await exec(
-    'docker',
-    ['ps', '-a', '--filter', `name=${DOCKER_CONTAINER_NAME}`, '-q']
-  )
+  const oldContainerID = await exec('docker', [
+    'ps',
+    '-a',
+    '--filter',
+    `name=${DOCKER_CONTAINER_NAME}`,
+    '-q',
+  ])
 
   if (!oldContainerID) {
     console.info('No container from previous run found.. skip clean up')
@@ -37,26 +40,26 @@ const run = async () => {
 
   console.info('Starting image')
 
-  await exec(
-    'bash',
-    [
-      path.join(__dirname, 'docker_run.sh'),
-      DOCKER_CONTAINER_NAME,
-      DATA_PATH,
-      LOGS_PATH,
-      NEO4J_PASSWORD,
-      NEO4J_VERSION,
-      NEO4J_PORT_BROWSER,
-      NEO4J_PORT_BOLT,
-    ]
-  )
+  await exec('bash', [
+    path.join(__dirname, 'docker_run.sh'),
+    DOCKER_CONTAINER_NAME,
+    DATA_PATH,
+    LOGS_PATH,
+    NEO4J_PASSWORD,
+    NEO4J_VERSION,
+    NEO4J_PORT_BROWSER,
+    NEO4J_PORT_BOLT,
+  ])
 
-  console.log('Started');
+  console.log('Started')
 
-  const newContainerID = await exec(
-    'docker',
-    ['ps', '-a', '--filter', `name=${DOCKER_CONTAINER_NAME}`, '-q']
-  )
+  const newContainerID = await exec('docker', [
+    'ps',
+    '-a',
+    '--filter',
+    `name=${DOCKER_CONTAINER_NAME}`,
+    '-q',
+  ])
 
   console.log('')
   console.info('-> SUCCESS <-')

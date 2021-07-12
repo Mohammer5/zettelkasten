@@ -1,9 +1,18 @@
-type Tag {
+type TagCategory {
   id: ID! @id
-  zettel: [Zettel!] @relationship(type: "HAS", direction: IN)
+  tags: [Tag!] @relationship(type: "PART_OF", direction: IN)
   label: ID!
 }
 
+type Tag {
+  id: ID! @id
+  zettel: [Zettel!] @relationship(type: "HAS", direction: IN)
+  category: TagCategory! @relationship(type: "PART_OF", direction: OUT)
+  label: ID!
+}
+
+# Zettels can be shared between zettels
+# This way they can be re-used if useful
 type Source {
   id: ID! @id
   label: String
@@ -13,17 +22,20 @@ type Source {
   zettel: [Zettel!] @relationship(type: "HAS", direction: IN)
 }
 
+# Zettels can be shared between kastens
+# This way they can be re-used if useful
 type Zettel {
   id: ID! @id
   tags: [Tag!]! @relationship(type: "HAS", direction: OUT)
   title: String!
   content: String!
   sources: [Source!] @relationship(type: "HAS", direction: OUT)
-  follows: Zettel @relationship(type: "FOLLOWS", direction: OUT)
-  followedBy: Zettel! @relationship(type: "FOLLOWS", direction: IN)
+  follows: [Zettel!] @relationship(type: "FOLLOWS", direction: OUT)
+  followedBy: [Zettel!] @relationship(type: "FOLLOWS", direction: IN)
   kasten: [Kasten!] @relationship(type: "CONTAINS", direction: IN)
 }
 
+# A Kasten is a topic, e. g. a scientific study, homework, a presentation
 type Kasten {
   id: ID! @id
   label: String!

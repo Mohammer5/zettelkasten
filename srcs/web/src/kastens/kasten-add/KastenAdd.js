@@ -1,4 +1,3 @@
-import { gql, useMutation } from '@apollo/client'
 import {
   Button,
   ButtonStrip,
@@ -11,22 +10,7 @@ import React from 'react'
 import { Form, Field } from 'react-final-form'
 import styles from './KastenAdd.module.scss'
 
-const ADD_KASTEN_MUTATION = gql`
-  mutation {
-    createKastens(input: {
-      label: "Kasten label"
-    }) {
-      kastens {
-        id
-        label
-      }
-    }
-  }
-`
-
 export const KastenAdd = () => {
-  const [createKasten, { loading, error }] = useMutation(ADD_KASTEN_MUTATION)
-
   return (
     <div className={styles.kastenAdd}>
       <Form onSubmit={console.log.bind(null, 'onSubmit')}>
@@ -44,9 +28,7 @@ export const KastenAdd = () => {
             </div>
 
             <ButtonStrip>
-              <Button onClick={console.log}>
-                Cancel
-              </Button>
+              <Button onClick={console.log}>Cancel</Button>
 
               <Button type="submit" primary onClick={console.log}>
                 Submit

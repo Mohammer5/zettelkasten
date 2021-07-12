@@ -1,17 +1,8 @@
-import { gql, useQuery } from '@apollo/client'
 import React from 'react'
-
-const KASTEN_QUERY = gql`
-  query kastenQuery {
-    kastens {
-      id
-      label
-    }
-  }
-`
+import { useKastenListGetKastenQuery } from './useKastenListGetKastenQuery'
 
 export const KastenList = () => {
-  const { loading, error, data } = useQuery(KASTEN_QUERY)
+  const { loading, error, data } = useKastenListGetKastenQuery()
 
   if (loading) return 'Loading...'
   if (error) return `Error: ${error.message}`
