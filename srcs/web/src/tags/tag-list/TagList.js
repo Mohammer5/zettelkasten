@@ -23,7 +23,7 @@ const DELETE_TAG_MUTATION = gql`
   }
 `
 
-export const TagsList = () => {
+export const TagList = () => {
   const history = useHistory()
   const { loading: loadingTags, error: errorTags, data } = useQuery(TAGS_QUERY)
 

@@ -7,7 +7,12 @@ import {
   Redirect,
 } from 'react-router-dom'
 import { KastenAdd, KastenList } from '../kastens'
-import { TagEdit, TagsList } from '../tags'
+import { TagEdit, TagList } from '../tags'
+import {
+  TagCategoryAdd,
+  TagCategoryList,
+  TagCategoryEdit,
+} from '../tag-categories'
 import { ZettelList } from '../zettels'
 import './App.css'
 import { Header } from './header'
@@ -28,23 +33,27 @@ export const App = () => (
       <LayoutAreaContent>
         <Router>
           <Switch>
-            <Route path="/kastens" exact component={KastenList} />
-            <Route path="/kastens/add" exact component={KastenAdd} />
-            <Route path="/kastens/:id" exact component={ZettelList} />
+            <Route path="/kasten" exact component={KastenList} />
+            <Route path="/kasten/add" exact component={KastenAdd} />
+            <Route path="/kasten/:id" exact component={KastenList} />
 
-            <Route path="/tags" exact component={TagsList} />
-            <Route path="/tags/add" exact component={KastenAdd} />
-            <Route path="/tags/:id" exact component={TagEdit} />
-
-            <Route path="/sources" exact component={KastenList} />
-            <Route path="/sources/add" exact component={KastenAdd} />
-            <Route path="/sources/:id" exact component={ZettelList} />
-
-            <Route path="/zettels" exact component={KastenList} />
-            <Route path="/zettels/add" exact component={KastenAdd} />
+            <Route path="/zettels" exact component={ZettelList} />
+            <Route path="/zettels/add" exact component={ZettelList} />
             <Route path="/zettels/:id" exact component={ZettelList} />
 
-            <Route component={() => <Redirect to="/tags" />} />
+            <Route path="/tags" exact component={TagList} />
+            <Route path="/tags/add" exact component={TagList} />
+            <Route path="/tags/:id" exact component={TagEdit} />
+
+            <Route path="/tagCategories" exact component={TagCategoryList} />
+            <Route path="/tagCategories/add" exact component={TagCategoryAdd} />
+            <Route
+              path="/tagCategories/:id"
+              exact
+              component={TagCategoryEdit}
+            />
+
+            <Route component={() => <Redirect to="/tagCategories" />} />
           </Switch>
         </Router>
       </LayoutAreaContent>

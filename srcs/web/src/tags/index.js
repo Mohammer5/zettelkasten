@@ -1,2 +1,3 @@
+export * from './tag-add'
 export * from './tag-edit'
-export * from './tags-list'
+export * from './tag-list'

@@ -1,7 +1,8 @@
 type TagCategory {
   id: ID! @id
-  tags: [Tag!] @relationship(type: "PART_OF", direction: IN)
   label: ID!
+  color: String! #hex
+  tags: [Tag!] @relationship(type: "PART_OF", direction: IN)
 }
 
 type Tag {
