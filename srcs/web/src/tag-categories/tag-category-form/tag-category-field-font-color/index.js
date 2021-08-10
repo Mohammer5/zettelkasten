@@ -1,0 +1,1 @@
+export { TagCategoryFieldFontColor } from './TagCategoryFieldFontColor'

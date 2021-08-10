@@ -9,7 +9,7 @@
     "start": "babel-node ./src/index.js"
   },
   "dependencies": {
-    "@neo4j/graphql": "^1.1.0",
+    "@neo4j/graphql": "^2.0.0-rc.2",
     "apollo-server-express": "^2.25.2",
     "cors": "^2.8.5",
     "graphql": "^15.5.1",

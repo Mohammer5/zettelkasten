@@ -6,15 +6,11 @@
   margin-bottom: 16px;
 }
 
-.label:before, .tagCount:before {
-  content: " ";
+.tagCategories {
+  display: flex;
 }
 
-.color {
-  display: inline-block;
-  height: 16px;
-  width: 16px;
-  border-radius: 8px;
-  position: relative;
-  top: 3px;
+.tagCategory {
+  margin-right: 4px;
+  margin-bottom: 4px;
 }

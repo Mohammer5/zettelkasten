@@ -1,10 +1,8 @@
 import { Form } from 'react-final-form'
 import { useHistory, useParams } from 'react-router-dom'
 import React from 'react'
-import { FormActions } from '../../shared'
-import { TagCategoryColorField } from '../tag-category-color-field'
-import { TagCategoryLabelField } from '../tag-category-label-field'
-import { TagCategoryTags } from '../tag-category-tags'
+import { GlobalLoadingError, GlobalLoadingIndicator } from '../../shared'
+import { TagCategoryForm } from '../tag-category-form'
 import { useTagCategoryEditGetTagCategoryQuery } from './useTagCategoryEditGetTagCategoryQuery'
 import { useTagCategoryEditUpdateTagCategoryMutation } from './useTagCategoryEditUpdateTagCategoryMutation'
 
@@ -25,13 +23,14 @@ export const TagCategoryEdit = () => {
 
   const loading = loadingTagCategory || loadingUpdateTagCategory
   const error = errorTagCategory || errorUpdateTagCategory
-  if (loading) return 'Loading...'
-  if (error) return `Error: ${error.toString()}`
+  if (loading) return <GlobalLoadingIndicator />
+  if (error) return <GlobalLoadingError error={error} />
 
   const [tagCategory] = data.tagCategories
   const initialValues = {
     label: tagCategory.label,
-    color: tagCategory.color,
+    backgroundColor: tagCategory.backgroundColor,
+    fontColor: tagCategory.fontColor,
   }
   const onSubmit = async values => {
     const variables = { ...values, id: tagCategory.id }
@@ -43,26 +42,12 @@ export const TagCategoryEdit = () => {
     <div style={{ padding: 16 }}>
       <Form onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit, pristine }) => (
-          <form onSubmit={handleSubmit}>
-            <div style={{ margin: '0 0 32px' }}>
-              <TagCategoryLabelField />
-            </div>
-
-            <div style={{ margin: '0 0 32px' }}>
-              <TagCategoryColorField />
-            </div>
-
-            <div>
-              <TagCategoryTags id={id} />
-            </div>
-
-            <div style={{ marginTop: 32 }}>
-              <FormActions
-                disabled={loading || pristine}
-                onCancel={() => history.push('/tagCategories')}
-              />
-            </div>
-          </form>
+          <TagCategoryForm
+            disableSubmit={loading || pristine}
+            tagCategoryId={id}
+            onCancel={() => history.push('/tagCategories')}
+            onSubmit={handleSubmit}
+          />
         )}
       </Form>
     </div>

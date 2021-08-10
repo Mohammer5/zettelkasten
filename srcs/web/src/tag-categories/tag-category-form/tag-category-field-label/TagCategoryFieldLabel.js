@@ -4,7 +4,7 @@ import React from 'react'
 
 const validate = composeValidators(hasValue, string)
 
-export const TagCategoryLabelField = () => {
+export const TagCategoryFieldLabel = () => {
   const { input, meta } = useField('label', { validate })
 
   return <InputFieldFF required label="Label" input={input} meta={meta} />

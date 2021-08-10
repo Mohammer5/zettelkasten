@@ -1,45 +1,64 @@
-import { gql, useMutation, useQuery } from '@apollo/client'
-import { Chip } from '@dhis2/ui'
+import { gql, useQuery } from '@apollo/client'
+import { Button } from '@dhis2/ui'
 import { useHistory } from 'react-router-dom'
 import React from 'react'
+import { GlobalLoadingError, GlobalLoadingIndicator } from '../../shared'
+import { TagItem } from './TagItem'
+import styles from './TagList.module.scss'
 
 const TAGS_QUERY = gql`
   query TagsListGetTags {
-    tags {
-      id
-      label
-      zettel {
-        id
+    tagCategories(
+      options: {
+        sort: {
+          backgroundColor: ASC
+        }
       }
-    }
-  }
-`
-
-const DELETE_TAG_MUTATION = gql`
-  mutation TagsListDeleteTag($id: ID!) {
-    deleteTags(where: { id: $id }) {
-      nodesDeleted
+    ) {
+      tags(options: {
+        sort: {
+          label: ASC
+        }
+      }) {
+        id
+        label
+        category {
+          backgroundColor
+          fontColor
+        }
+        zettel {
+          id
+        }
+      }
     }
   }
 `
 
 export const TagList = () => {
   const history = useHistory()
-  const { loading: loadingTags, error: errorTags, data } = useQuery(TAGS_QUERY)
+  const { loading, error, data } = useQuery(TAGS_QUERY)
 
-  const [deleteTag, { loading: loadingDelete, error: errorDelete }] =
-    useMutation(DELETE_TAG_MUTATION, {
-      refetchQueries: ['TagsListGetTags'],
-    })
+  const tags = data?.tagCategories.reduce(
+    (acc, cur) => [...acc, ...cur.tags],
+    []
+  ) || []
 
-  const loading = loadingTags || loadingDelete
-  const error = errorTags || errorDelete
-  const hasUndeletableTags = !!data?.tags.filter(({ zettel }) => zettel.length)
+  const hasUndeletableTags = !!tags.filter(({ zettel }) => zettel.length)
     .length
+
   const display = !loading && !error && data
+
+  if (loading) return <GlobalLoadingIndicator />
+  if (error) return <GlobalLoadingError />
 
   return (
     <div style={{ padding: 16 }}>
+      <div style={{ marginBottom: 32 }}>
+        <Button primary onClick={() => history.push('/tags/add')}>
+          Add tag
+        </Button>
+      </div>
+
       {loading && 'Loading...'}
       {error && `Error: ${error.toString()}`}
 
@@ -49,20 +68,23 @@ export const TagList = () => {
         </div>
       )}
 
-      {display &&
-        data.tags.map(({ id, label, zettel }) => (
-          <Chip
-            key={id}
-            onClick={() => history.push(`/tags/${id}`)}
-            onRemove={
-              !zettel.length
-                ? () => deleteTag({ variables: { id } })
-                : undefined
-            }
-          >
-            {label}
-          </Chip>
-        ))}
+      {display && (
+        <div className={styles.tags}>
+          {tags.map(({ id, label, zettel, category }) => (
+            <div className={styles.tag}>
+              <TagItem
+                key={id}
+                id={id}
+                label={label}
+                hasZettels={!!zettel.length}
+                category={category}
+              >
+                {label}
+              </TagItem>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

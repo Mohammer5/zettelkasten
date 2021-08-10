@@ -1,3 +1,7 @@
 export * from './tag-add'
+export * from './tag-add-form'
+export * from './tag-chip'
 export * from './tag-edit'
+export * from './tag-form-modal'
 export * from './tag-list'
+export * from './tag-transfer-options'

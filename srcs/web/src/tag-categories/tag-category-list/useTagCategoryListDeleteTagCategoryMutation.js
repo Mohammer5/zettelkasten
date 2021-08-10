@@ -8,9 +8,5 @@ const TAG_CATEGORY_LIST_DELETE_TAG_CATEGORY_MUTATION = gql`
   }
 `
 
-const refetchQueries = ['TagCategoryListGetTagCategoriesQuery']
-
 export const useTagCategoryListDeleteTagCategoryMutation = () =>
-  useMutation(TAG_CATEGORY_LIST_DELETE_TAG_CATEGORY_MUTATION, {
-    refetchQueries,
-  })
+  useMutation(TAG_CATEGORY_LIST_DELETE_TAG_CATEGORY_MUTATION)

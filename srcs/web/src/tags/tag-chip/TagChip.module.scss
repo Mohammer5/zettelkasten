@@ -1,0 +1,26 @@
+.tagChip {
+  display: inline-flex;
+  white-space: nowrap;
+  background: grey;
+  border-radius: 10px;
+  padding: 0 8px;
+  overflow: hidden;
+  height: 20px;
+  line-height: 20px;
+}
+
+.label {
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+.remove {
+  border-radius: 50%;
+  background: black;
+  margin-left: 4px;
+
+  &:before {
+    content: 'x';
+    color: white;
+  }
+}

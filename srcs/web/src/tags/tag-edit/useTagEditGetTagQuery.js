@@ -5,6 +5,9 @@ const TAG_EDIT_GET_TAG_QUERY = gql`
     tags(where: { id: $id }) {
       id
       label
+      category {
+        id
+      }
     }
   }
 `

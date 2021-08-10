@@ -1,0 +1,21 @@
+.container {
+    font-size: 14px;
+    line-height: 16px;
+    padding: 4px 8px;
+    color: --var(--colors-grey900);
+    user-select: none;
+}
+
+.container:hover {
+    background: --var(--colors-grey200);
+}
+
+.container.highlighted {
+    background: --var(--colors-teal700);
+    color: --var(--colors-white);
+}
+
+.container.disabled {
+    color: --var(--colors-grey600);
+    cursor: not-allowed;
+}

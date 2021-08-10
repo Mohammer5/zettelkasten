@@ -1,6 +1,7 @@
-import { Button, Chip } from '@dhis2/ui'
+import { Button } from '@dhis2/ui'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
+import { Tag, GlobalLoadingError, GlobalLoadingIndicator } from '../../shared'
 import { useTagCategoryListGetTagCategoriesQuery } from './useTagCategoryListGetTagCategoriesQuery'
 import { useTagCategoryListDeleteTagCategoryMutation } from './useTagCategoryListDeleteTagCategoryMutation'
 import styles from './TagCategoryList.module.scss'
@@ -17,10 +18,8 @@ export const TagCategoryList = () => {
 
   const loading = tagCategoriesLoading || deleteLoading
   const error = tagCategoriesError || deleteError
-
-  if (loading) return 'Loading tag categories...'
-
-  if (error) return `Something went wrong: ${error.toString()}`
+  if (loading) return <GlobalLoadingIndicator />
+  if (error) return <GlobalLoadingError />
 
   const hasUndeletableTagCategories = !!data?.tagCategories.filter(
     ({ tags }) => tags.length
@@ -46,25 +45,32 @@ export const TagCategoryList = () => {
         </div>
       )}
 
-      {display &&
-        tagCategories.map(({ id, label, color, tags }) => (
-          <Chip
-            key={id}
-            onClick={() => history.push(`/tagCategories/${id}`)}
-            onRemove={
-              !tags.length
-                ? () => deleteTagCategory({ variables: { id } })
-                : undefined
-            }
-          >
-            <span className={styles.color} style={{ background: color }} />
-            <span className={styles.label}>{label}</span>
-            <span className={styles.tagCount}>
-              {tags.length !== 1 && `(${tags.length} tags)`}
-              {tags.length === 1 && `(1 tag)`}
-            </span>
-          </Chip>
-        ))}
+      {display && (
+        <div className={styles.tagCategories}>
+          {tagCategories.map(({ id, label, backgroundColor, fontColor, tags }) => (
+            <div className={styles.tagCategory}>
+              <Tag
+                key={id}
+                onClick={() => history.push(`/tagCategories/${id}`)}
+                onRemove={
+                  !tags.length
+                    ? () => deleteTagCategory({ variables: { id } })
+                    : undefined
+                }
+                style={{
+                  background: backgroundColor,
+                  color: fontColor,
+                }}
+              >
+                {label}
+                {' '}
+                {tags.length !== 1 && `(${tags.length} tags)`}
+                {tags.length === 1 && `(1 tag)`}
+              </Tag>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   )
 }

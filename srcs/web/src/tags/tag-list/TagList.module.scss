@@ -1,0 +1,21 @@
+.label:before, .tagCount:before {
+  content: " ";
+}
+
+.color {
+  display: inline-block;
+  height: 16px;
+  width: 16px;
+  border-radius: 8px;
+  position: relative;
+  top: 3px;
+}
+
+.tags {
+  display: flex;
+}
+
+.tag {
+  margin-right: 4px;
+  margin-bottom: 4px;
+}

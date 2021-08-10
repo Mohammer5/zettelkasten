@@ -5,7 +5,8 @@ const TAG_CATEGORY_LIST_GET_TAG_CATEGORIES_QUERY = gql`
     tagCategories {
       id
       label
-      color
+      backgroundColor
+      fontColor
       tags {
         id
       }

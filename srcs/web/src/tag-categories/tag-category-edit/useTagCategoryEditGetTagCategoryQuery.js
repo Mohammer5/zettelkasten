@@ -5,7 +5,8 @@ const TAG_CATEGORY_EDIT_GET_TAG_CATEGORY_QUERY = gql`
     tagCategories(where: { id: $id }) {
       id
       label
-      color
+      backgroundColor
+      fontColor
     }
   }
 `

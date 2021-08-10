@@ -1,40 +1,51 @@
-import { Form } from 'react-final-form'
-import { useHistory } from 'react-router-dom'
+import PropTypes from 'prop-types'
 import React from 'react'
-import { FormActions } from '../../shared'
-import { TagLabelField } from '../tag-label-field'
+import { useHistory } from 'react-router-dom'
+import { TagAddForm } from '../tag-add-form'
 import { useTagAddCreateTagMutation } from './useTagAddCreateTagMutation'
+import { useTagAddCreateTagAndTagCategoryMutation } from './useTagAddCreateTagAndTagCategoryMutation'
 
-export const TagAdd = () => {
+export const TagAdd = ({ onDone: customOnDone }) => {
   const history = useHistory()
-  const [createTag, { loading, error }] = useTagAddCreateTagMutation()
+  const onDone = customOnDone || (() => history.goBack())
 
+  const [createTag, {
+    loading: loadingCreateTag,
+    error: errorCreateTag,
+  }] = useTagAddCreateTagMutation()
+
+  const [createTagAndTagCategory, {
+    loading: loadingCreateTagAndTagCategory,
+    error: errorCreateTagAndTagCategory,
+  }] = useTagAddCreateTagAndTagCategoryMutation()
+
+  const loading = loadingCreateTag || loadingCreateTagAndTagCategory
+  const error = errorCreateTag || errorCreateTagAndTagCategory
   if (loading) return 'Loading...'
-  if (error) return `Error: ${error.toString()}`
+  if (error) return error.toString()
 
-  const onSubmit = async variables => {
+  const onCreateTag = async variables => {
     await createTag({ variables })
-    history.push('/tags')
+    onDone()
+  }
+
+  const onCreateTagAndTagCategory = async variables => {
+    await createTagAndTagCategory({ variables })
+    onDone()
   }
 
   return (
     <div style={{ padding: 16 }}>
-      <Form onSubmit={onSubmit}>
-        {({ handleSubmit, pristine }) => (
-          <form onSubmit={handleSubmit}>
-            <div style={{ margin: '0 0 32px' }}>
-              <TagLabelField />
-            </div>
-
-            <div style={{ marginTop: 32 }}>
-              <FormActions
-                disabled={loading || pristine}
-                onCancel={() => history.push('/tags')}
-              />
-            </div>
-          </form>
-        )}
-      </Form>
+      <TagAddForm
+        onCancel={onDone}
+        disableSubmit={loading}
+        onCreateTag={onCreateTag}
+        onCreateTagAndTagCategory={onCreateTagAndTagCategory}
+      />
     </div>
   )
+}
+
+TagAdd.propTypes = {
+  onDone: PropTypes.func,
 }

@@ -1,11 +1,10 @@
 import { Form } from 'react-final-form'
 import { useHistory, useParams } from 'react-router-dom'
 import React from 'react'
-import { FormActions } from '../../shared'
-import { TagLabelField } from '../tag-label-field'
-import { TagZettels } from '../tag-zettels'
+import { TagForm } from '../tag-form'
 import { useTagEditGetTagQuery } from './useTagEditGetTagQuery'
-import { useTagEditUpdateTagDataMutation } from './useTagEditUpdateTagDataMutation'
+import { useTagEditUpdateTagAndCreateTagCategoryMutation } from './useTagEditUpdateTagAndCreateTagCategoryMutation'
+import { useTagEditUpdateTagMutation } from './useTagEditUpdateTagMutation'
 
 export const TagEdit = () => {
   const history = useHistory()
@@ -18,18 +17,47 @@ export const TagEdit = () => {
   } = useTagEditGetTagQuery(id)
 
   const [updateTag, { loading: loadingUpdateTag, error: errorUpdateTag }] =
-    useTagEditUpdateTagDataMutation()
+    useTagEditUpdateTagMutation()
 
-  const loading = loadingTag || loadingUpdateTag
-  const error = errorTag || errorUpdateTag
+  const [updateTagAndCreateTagCategory, {
+    loading: loadingUpdateTagAndCreateTagCategory,
+    error: errorUpdateTagAndCreateTagCategory,
+  }] =
+    useTagEditUpdateTagAndCreateTagCategoryMutation()
+
+  const loading = loadingTag || loadingUpdateTag || loadingUpdateTagAndCreateTagCategory
+  const error = errorTag || errorUpdateTag || errorUpdateTagAndCreateTagCategory
   if (loading) return 'Loading...'
   if (error) return `Error: ${error.toString()}`
 
   const [tag] = data?.tags
-  const initialValues = { label: tag.label }
+  const initialValues = {
+    label: tag.label,
+    tagCategory: tag.category.id,
+  }
   const onSubmit = async values => {
-    const variables = { ...values, id: tag.id }
-    await updateTag({ variables })
+    console.log('values', values)
+    return Promise.reject('ERROR!')
+
+    const { label, tagCategory, tagCategoryNew } = values
+
+    if (tagCategory && tagCategoryNew) {
+      throw new Error('@TODO: tagCategory & tagCategoryNew should never be truthy at the same time')
+    }
+
+    const mutator = tagCategory ? updateTag : updateTagAndCreateTagCategory
+    const variables = { label, id: tag.id }
+
+    if (tagCategory) {
+      variables.tagCategoryId = tagCategory
+      variables.prevTagCategoryId = tag.category.id
+    } else if (tagCategoryNew) {
+      variables.tagCategoryLabel = tagCategoryNew.label
+      variables.tagCategoryColor = tagCategoryNew.color
+      variables.prevTagCategoryId = tag.category.id
+    }
+
+    await mutator({ variables })
     history.push('/tags')
   }
 
@@ -37,22 +65,12 @@ export const TagEdit = () => {
     <div style={{ padding: 16 }}>
       <Form onSubmit={onSubmit} initialValues={initialValues}>
         {({ handleSubmit, pristine }) => (
-          <form onSubmit={handleSubmit}>
-            <div style={{ margin: '0 0 32px' }}>
-              <TagLabelField />
-            </div>
-
-            <div>
-              <TagZettels id={id} />
-            </div>
-
-            <div style={{ marginTop: 32 }}>
-              <FormActions
-                disabled={loading || pristine}
-                onCancel={() => history.push('/tags')}
-              />
-            </div>
-          </form>
+          <TagForm
+            disableSubmit={loading || pristine}
+            onCancel={() => history.push('/tags')}
+            onSubmit={handleSubmit}
+            tagId={id}
+          />
         )}
       </Form>
     </div>

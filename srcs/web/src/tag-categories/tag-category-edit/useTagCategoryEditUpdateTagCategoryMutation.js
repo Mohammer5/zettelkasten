@@ -4,24 +4,25 @@ const TAG_CATEGORY_EDIT_UPDATE_TAG_CATEGORY_MUTATION = gql`
   mutation TagCategoryEditUpdateTagCategoryMutation(
     $id: ID!
     $label: ID!
-    $color: String!
+    $backgroundColor: ID!
+    $fontColor: String!
   ) {
     updateTagCategories(
-      where: { id: $id }
-      update: { label: $label, color: $color }
+      where: {
+        id: $id
+      },
+      update: {
+        label: $label,
+        backgroundColor: $backgroundColor,
+        fontColor: $fontColor,
+      }
     ) {
       tagCategories {
         id
-        label
-        color
       }
     }
   }
 `
 
-const refetchQueries = ['TagCategoriesListGetTagCategories']
-
 export const useTagCategoryEditUpdateTagCategoryMutation = () =>
-  useMutation(TAG_CATEGORY_EDIT_UPDATE_TAG_CATEGORY_MUTATION, {
-    refetchQueries,
-  })
+  useMutation(TAG_CATEGORY_EDIT_UPDATE_TAG_CATEGORY_MUTATION)

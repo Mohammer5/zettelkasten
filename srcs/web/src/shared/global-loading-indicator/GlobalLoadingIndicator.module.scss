@@ -1,0 +1,29 @@
+$headerHeight: 60px;
+
+.globalLoadingIndicator {
+  height: calc(100vh - #{$headerHeight});
+  width: 100vw;
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  z-index: 1;
+  background: #eee8d5;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  &::before {
+    content: 'Loading';
+  }
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -50%;
+    height: 150%;
+    width: 200%;
+    box-shadow: inset 0 0 4px 0 rgba(0,0,0,0.6);
+  }
+}

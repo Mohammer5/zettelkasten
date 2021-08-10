@@ -1,0 +1,1 @@
+export { TagCategoryFieldLabel } from './TagCategoryFieldLabel'

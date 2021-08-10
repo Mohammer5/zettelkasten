@@ -1,7 +1,8 @@
 type TagCategory {
   id: ID! @id
   label: ID!
-  color: String! #hex
+  backgroundColor: ID! #hex
+  fontColor: String! #hex
   tags: [Tag!] @relationship(type: "PART_OF", direction: IN)
 }
 
@@ -16,29 +17,80 @@ type Tag {
 # This way they can be re-used if useful
 type Source {
   id: ID! @id
-  label: String
+  label: ID!
   link: ID # optional
   file: ID # optional local file path / file address
   notes: String # optional
   zettel: [Zettel!] @relationship(type: "HAS", direction: IN)
 }
 
+union KastenContent = Zettel | Kasten
+
 # Zettels can be shared between kastens
 # This way they can be re-used if useful
 type Zettel {
   id: ID! @id
-  tags: [Tag!]! @relationship(type: "HAS", direction: OUT)
-  title: String!
+  title: ID!
   content: String!
-  sources: [Source!] @relationship(type: "HAS", direction: OUT)
-  follows: [Zettel!] @relationship(type: "FOLLOWS", direction: OUT)
-  followedBy: [Zettel!] @relationship(type: "FOLLOWS", direction: IN)
-  kasten: [Kasten!] @relationship(type: "CONTAINS", direction: IN)
+  tags: [Tag!]!
+    @relationship(type: "HAS", direction: OUT)
+  sources: [Source!]
+    @relationship(type: "HAS", direction: OUT)
+  kastenPositions: [KastenPosition!] @relationship(type: "HOLDS_KASTEN_CONTENT", direction: IN)
+
+}
+
+type KastenPosition {
+  index: Int! # @unique
+  holds: KastenContent! @relationship(type: "HOLDS_KASTEN_CONTENT", direction: OUT)
+  kasten: Kasten! @relationship(type: "IN_KASTEN", direction: OUT)
 }
 
 # A Kasten is a topic, e. g. a scientific study, homework, a presentation
 type Kasten {
   id: ID! @id
-  label: String!
-  zettel: [Zettel!]! @relationship(type: "CONTAINS", direction: OUT)
+  label: ID!
+  kastenPositions: [KastenPosition!]
+    @relationship(type: "HOLDS_KASTEN_CONTENT", direction: IN)
+  contents: [KastenPosition!]
+    @relationship(
+      type: "IN_KASTEN",
+      direction: IN,
+    )
+}
+
+input InputDeleteTrailingKastenPosition {
+  from: Int!
+  kasten: ID!
+}
+
+input InputRemoveFromKasten {
+  index: Int!
+}
+
+type Mutation {
+  removeFromKasten(input: InputRemoveFromKasten): Int
+    @cypher(statement: """
+      // Delete position
+
+      MATCH (toDelete:KastenPosition { index: $input.index })
+      DETACH DELETE toDelete
+
+      // Adjust index of all remaining following positions
+      WITH toDelete
+      MATCH following=(toMove:KastenPosition)
+      WHERE toMove.index > $input.index
+      FOREACH (n IN nodes(following) | SET n.index = n.index - 1)
+
+      // Return amount of adjusted nodes
+      RETURN count(toMove)
+    """)
+
+  deleteTrailingKastenPosition(input: InputDeleteTrailingKastenPosition!): Int
+    @cypher(statement: """
+      MATCH (n:KastenPosition)<-[:FOR_KASTEN]-(k:Kasten { id: $input.kasten })
+      WHERE n.position >= $input.from
+      DETACH DELETE n
+      RETURN count(n)
+    """)
 }
