@@ -1,3 +1,5 @@
 .layoutAreaHeader {
   grid-area: header;
+  position: relative;
+  z-index: 3;
 }

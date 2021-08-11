@@ -48,9 +48,8 @@ export const TagCategoryList = () => {
       {display && (
         <div className={styles.tagCategories}>
           {tagCategories.map(({ id, label, backgroundColor, fontColor, tags }) => (
-            <div className={styles.tagCategory}>
+            <div key={id} className={styles.tagCategory}>
               <Tag
-                key={id}
                 onClick={() => history.push(`/tagCategories/${id}`)}
                 onRemove={
                   !tags.length

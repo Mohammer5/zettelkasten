@@ -3,13 +3,13 @@ type TagCategory {
   label: ID!
   backgroundColor: ID! #hex
   fontColor: String! #hex
-  tags: [Tag!] @relationship(type: "PART_OF", direction: IN)
+  tags: [Tag!] @relationship(type: "HAS_CATEGORY", direction: IN)
 }
 
 type Tag {
   id: ID! @id
   zettel: [Zettel!] @relationship(type: "HAS", direction: IN)
-  category: TagCategory! @relationship(type: "PART_OF", direction: OUT)
+  category: TagCategory! @relationship(type: "HAS_CATEGORY", direction: OUT)
   label: ID!
 }
 
@@ -24,7 +24,7 @@ type Source {
   zettel: [Zettel!] @relationship(type: "HAS", direction: IN)
 }
 
-union KastenContent = Zettel | Kasten
+# union KastenContent = Zettel | Kasten
 
 # Zettels can be shared between kastens
 # This way they can be re-used if useful
@@ -36,26 +36,22 @@ type Zettel {
     @relationship(type: "HAS", direction: OUT)
   sources: [Source!]
     @relationship(type: "HAS", direction: OUT)
-  kastenPositions: [KastenPosition!] @relationship(type: "HOLDS_KASTEN_CONTENT", direction: IN)
-
+  kastens: [Kasten!] @relationship(type: "IN_KASTEN", direction: OUT, properties: "InKastenRelationship")
 }
 
-type KastenPosition {
-  index: Int! # @unique
-  holds: KastenContent! @relationship(type: "HOLDS_KASTEN_CONTENT", direction: OUT)
-  kasten: Kasten! @relationship(type: "IN_KASTEN", direction: OUT)
+interface InKastenRelationship {
+  position: Int!
 }
 
 # A Kasten is a topic, e. g. a scientific study, homework, a presentation
 type Kasten {
   id: ID! @id
   label: ID!
-  kastenPositions: [KastenPosition!]
-    @relationship(type: "HOLDS_KASTEN_CONTENT", direction: IN)
-  contents: [KastenPosition!]
+  contents: [Zettel!]
     @relationship(
       type: "IN_KASTEN",
       direction: IN,
+      properties: "InKastenRelationship"
     )
 }
 
@@ -65,25 +61,27 @@ input InputDeleteTrailingKastenPosition {
 }
 
 input InputRemoveFromKasten {
-  index: Int!
+  position: Int!
+  kastenId: ID!
 }
 
+# [ Zettel1, Zettel2, Zettel3, Zettel4 ]
+
 type Mutation {
-  removeFromKasten(input: InputRemoveFromKasten): Int
+  removeFromKasten(input: InputRemoveFromKasten): Zettel
     @cypher(statement: """
       // Delete position
-
-      MATCH (toDelete:KastenPosition { index: $input.index })
-      DETACH DELETE toDelete
+      MATCH (zettel)-[toDeleteRel:IN_KASTEN { position: $input.position }]->(:Kasten { id: $input.kastenId })
+      DELETE toDeleteRel
 
       // Adjust index of all remaining following positions
-      WITH toDelete
-      MATCH following=(toMove:KastenPosition)
-      WHERE toMove.index > $input.index
-      FOREACH (n IN nodes(following) | SET n.index = n.index - 1)
+      WITH zettel,toDeleteRel
+      MATCH following=()-[toMoveRel:IN_KASTEN]->(:Kasten { id: $input.kastenId })
+      WHERE toMoveRel.position > $input.position
+      FOREACH (r IN relationships(following) | SET r.position = r.position - 1)
 
       // Return amount of adjusted nodes
-      RETURN count(toMove)
+      RETURN zettel
     """)
 
   deleteTrailingKastenPosition(input: InputDeleteTrailingKastenPosition!): Int

@@ -1,42 +1,14 @@
-import { gql, useQuery } from '@apollo/client'
 import { Button } from '@dhis2/ui'
 import { useHistory } from 'react-router-dom'
 import React from 'react'
 import { GlobalLoadingError, GlobalLoadingIndicator } from '../../shared'
 import { TagItem } from './TagItem'
 import styles from './TagList.module.scss'
-
-const TAGS_QUERY = gql`
-  query TagsListGetTags {
-    tagCategories(
-      options: {
-        sort: {
-          backgroundColor: ASC
-        }
-      }
-    ) {
-      tags(options: {
-        sort: {
-          label: ASC
-        }
-      }) {
-        id
-        label
-        category {
-          backgroundColor
-          fontColor
-        }
-        zettel {
-          id
-        }
-      }
-    }
-  }
-`
+import { useTagListGetTagsQuery } from './useTagListGetTagsQuery.js'
 
 export const TagList = () => {
   const history = useHistory()
-  const { loading, error, data } = useQuery(TAGS_QUERY)
+  const { loading, error, data } = useTagListGetTagsQuery()
 
   const tags = data?.tagCategories.reduce(
     (acc, cur) => [...acc, ...cur.tags],

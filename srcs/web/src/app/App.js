@@ -38,14 +38,14 @@ const client = new ApolloClient({
 })
 
 export const App = () => (
-  <ApolloProvider client={client}>
-    <Layout>
-      <LayoutAreaHeader>
-        <Header />
-      </LayoutAreaHeader>
+  <Router>
+    <ApolloProvider client={client}>
+      <Layout>
+        <LayoutAreaHeader>
+          <Header />
+        </LayoutAreaHeader>
 
-      <LayoutAreaContent>
-        <Router>
+        <LayoutAreaContent>
           <Switch>
             <Route path="/kastens" exact component={KastenList} />
             <Route path="/kastens/add" exact component={KastenAdd} />
@@ -69,8 +69,8 @@ export const App = () => (
 
             <Route component={() => <Redirect to="/tagCategories" />} />
           </Switch>
-        </Router>
-      </LayoutAreaContent>
-    </Layout>
-  </ApolloProvider>
+        </LayoutAreaContent>
+      </Layout>
+    </ApolloProvider>
+  </Router>
 )

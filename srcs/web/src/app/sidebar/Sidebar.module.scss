@@ -1,0 +1,30 @@
+@import "../../styleguide/colors.scss";
+
+.sidebar {
+  width: 300px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(0px);
+  transition: transform 0.15s ease-out;
+  background: $base2;
+  box-shadow: 0 0 4px rgba(0,0,0,0.6);
+}
+
+.hidden {
+  transform: translateX(300px);
+  box-shadow: none;
+}
+
+.sidebarContents {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  z-index: 2;
+  background: inherit;
+}
