@@ -13,10 +13,12 @@ export const TagCategoryForm = ({
   onSubmit,
 }) => {
   return (
-    <form onSubmit={event => {
-      event.stopPropagation()
-      onSubmit(event)
-    }}>
+    <form
+      onSubmit={event => {
+        event.stopPropagation()
+        onSubmit(event)
+      }}
+    >
       <div style={{ margin: '0 0 32px' }}>
         <TagCategoryFieldLabel />
       </div>
@@ -36,10 +38,7 @@ export const TagCategoryForm = ({
       )}
 
       <div style={{ marginTop: 32 }}>
-        <FormActions
-          disabled={disableSubmit}
-          onCancel={onCancel}
-        />
+        <FormActions disabled={disableSubmit} onCancel={onCancel} />
       </div>
     </form>
   )

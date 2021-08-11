@@ -5,10 +5,14 @@ import { TagForm } from '../tag-form'
 
 export const TagFormModalContent = ({ tagCategories, onCancel, onSubmit }) => {
   return (
-    <Form onSubmit={({ label, tagCategory }) => onSubmit({
-      label,
-      tagCategoryId: tagCategory,
-    })}>
+    <Form
+      onSubmit={({ label, tagCategory }) =>
+        onSubmit({
+          label,
+          tagCategoryId: tagCategory,
+        })
+      }
+    >
       {({ handleSubmit, pristine }) => (
         <TagForm
           disableSubmit={pristine}
@@ -24,16 +28,16 @@ export const TagFormModalContent = ({ tagCategories, onCancel, onSubmit }) => {
 export const TagFormModal = ({ modalTitle, onCancel, onSubmit }) => {
   return (
     <Modal>
-      <ModalTitle>
-        {modalTitle}
-      </ModalTitle>
+      <ModalTitle>{modalTitle}</ModalTitle>
 
       <ModalContent>
         <Form
-          onSubmit={({ label, tagCategory }) => onSubmit({
-            label,
-            tagCategoryId: tagCategory,
-          })}
+          onSubmit={({ label, tagCategory }) =>
+            onSubmit({
+              label,
+              tagCategoryId: tagCategory,
+            })
+          }
         >
           {({ handleSubmit, pristine }) => (
             <TagForm

@@ -19,13 +19,16 @@ export const TagEdit = () => {
   const [updateTag, { loading: loadingUpdateTag, error: errorUpdateTag }] =
     useTagEditUpdateTagMutation()
 
-  const [updateTagAndCreateTagCategory, {
-    loading: loadingUpdateTagAndCreateTagCategory,
-    error: errorUpdateTagAndCreateTagCategory,
-  }] =
-    useTagEditUpdateTagAndCreateTagCategoryMutation()
+  const [
+    updateTagAndCreateTagCategory,
+    {
+      loading: loadingUpdateTagAndCreateTagCategory,
+      error: errorUpdateTagAndCreateTagCategory,
+    },
+  ] = useTagEditUpdateTagAndCreateTagCategoryMutation()
 
-  const loading = loadingTag || loadingUpdateTag || loadingUpdateTagAndCreateTagCategory
+  const loading =
+    loadingTag || loadingUpdateTag || loadingUpdateTagAndCreateTagCategory
   const error = errorTag || errorUpdateTag || errorUpdateTagAndCreateTagCategory
   if (loading) return 'Loading...'
   if (error) return `Error: ${error.toString()}`
@@ -39,10 +42,13 @@ export const TagEdit = () => {
     console.log('values', values)
     return Promise.reject('ERROR!')
 
+    // eslint-disable-next-line no-unreachable
     const { label, tagCategory, tagCategoryNew } = values
 
     if (tagCategory && tagCategoryNew) {
-      throw new Error('@TODO: tagCategory & tagCategoryNew should never be truthy at the same time')
+      throw new Error(
+        '@TODO: tagCategory & tagCategoryNew should never be truthy at the same time'
+      )
     }
 
     const mutator = tagCategory ? updateTag : updateTagAndCreateTagCategory

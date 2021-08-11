@@ -22,19 +22,19 @@ const client = new ApolloClient({
   uri: 'http://localhost:4001/graphql',
   cache: new InMemoryCache(),
   defaultOptions: {
-      watchQuery: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'ignore',
-      },
-      query: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all',
-      },
-      mutate: {
-        fetchPolicy: 'no-cache',
-        errorPolicy: 'all',
-      },
-  }
+    watchQuery: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'ignore',
+    },
+    query: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+    mutate: {
+      fetchPolicy: 'no-cache',
+      errorPolicy: 'all',
+    },
+  },
 })
 
 export const App = () => (

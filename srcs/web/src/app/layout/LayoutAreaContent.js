@@ -9,10 +9,7 @@ export const LayoutAreaContent = ({ children }) => {
   return (
     <div className={styles.layoutAreaContent}>
       {children}
-      <Sidebar
-        hidden={hidden}
-        toggleHidden={() => setHidden(!hidden)}
-      />
+      <Sidebar hidden={hidden} toggleHidden={() => setHidden(!hidden)} />
     </div>
   )
 }

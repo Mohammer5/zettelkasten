@@ -5,17 +5,14 @@ import { TagZettels } from '../tag-zettels'
 import { TagFieldCategory } from './tag-field-category'
 import { TagFieldLabel } from './tag-field-label'
 
-export const TagForm = ({
-  disableSubmit,
-  tagId,
-  onCancel,
-  onSubmit,
-}) => {
+export const TagForm = ({ disableSubmit, tagId, onCancel, onSubmit }) => {
   return (
-    <form onSubmit={event => {
-      event.stopPropagation()
-      onSubmit(event)
-    }}>
+    <form
+      onSubmit={event => {
+        event.stopPropagation()
+        onSubmit(event)
+      }}
+    >
       <div style={{ margin: '0 0 32px' }}>
         <TagFieldLabel />
       </div>
@@ -31,10 +28,7 @@ export const TagForm = ({
       )}
 
       <div style={{ marginTop: 32 }}>
-        <FormActions
-          disabled={disableSubmit}
-          onCancel={onCancel}
-        />
+        <FormActions disabled={disableSubmit} onCancel={onCancel} />
       </div>
     </form>
   )

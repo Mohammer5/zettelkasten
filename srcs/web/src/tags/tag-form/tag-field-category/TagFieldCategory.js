@@ -26,7 +26,8 @@ const TagFieldCategoryError = ({ error }) => (
 
 export const TagFieldCategory = () => {
   const [showAddTagCategoryModal, setShowAddTagCategoryModal] = useState(false)
-  const [showEditTagCategoryModal, setShowEditTagCategoryModal] = useState(false)
+  const [showEditTagCategoryModal, setShowEditTagCategoryModal] =
+    useState(false)
   const { input: inputTagCategory, meta } = useField('tagCategory')
   const { input: inputNewTagCategory } = useField('tagCategoryNew')
   const { loading, error, data } = useTagFieldCategoryGetCategoriesQuery()
@@ -39,9 +40,10 @@ export const TagFieldCategory = () => {
     return <TagFieldCategoryError error={error} />
   }
 
-  const options = data.tagCategories.map(
-    ({ id: value, label }) => ({ label, value })
-  )
+  const options = data.tagCategories.map(({ id: value, label }) => ({
+    label,
+    value,
+  }))
 
   return (
     <>
@@ -52,15 +54,14 @@ export const TagFieldCategory = () => {
           onChange: (...args) => {
             inputNewTagCategory.onChange(null)
             inputTagCategory.onChange(...args)
-          }
+          },
         }}
         meta={meta}
         options={options}
       />
 
       <p>
-        Alternatively you can {' '}
-
+        Alternatively you can{' '}
         <button
           type="button"
           onClick={() => setShowAddTagCategoryModal(true)}
@@ -78,14 +79,15 @@ export const TagFieldCategory = () => {
         >
           create a new tag category
         </button>
-
         {inputNewTagCategory.value && (
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+            }}
+          >
             <span style={{ display: 'block' }}>
-              New tag category: {' '}{inputNewTagCategory.value.label}
+              New tag category: {inputNewTagCategory.value.label}
             </span>
 
             <span

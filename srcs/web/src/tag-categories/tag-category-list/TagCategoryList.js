@@ -47,27 +47,27 @@ export const TagCategoryList = () => {
 
       {display && (
         <div className={styles.tagCategories}>
-          {tagCategories.map(({ id, label, backgroundColor, fontColor, tags }) => (
-            <div key={id} className={styles.tagCategory}>
-              <Tag
-                onClick={() => history.push(`/tagCategories/${id}`)}
-                onRemove={
-                  !tags.length
-                    ? () => deleteTagCategory({ variables: { id } })
-                    : undefined
-                }
-                style={{
-                  background: backgroundColor,
-                  color: fontColor,
-                }}
-              >
-                {label}
-                {' '}
-                {tags.length !== 1 && `(${tags.length} tags)`}
-                {tags.length === 1 && `(1 tag)`}
-              </Tag>
-            </div>
-          ))}
+          {tagCategories.map(
+            ({ id, label, backgroundColor, fontColor, tags }) => (
+              <div key={id} className={styles.tagCategory}>
+                <Tag
+                  onClick={() => history.push(`/tagCategories/${id}`)}
+                  onRemove={
+                    !tags.length
+                      ? () => deleteTagCategory({ variables: { id } })
+                      : undefined
+                  }
+                  style={{
+                    background: backgroundColor,
+                    color: fontColor,
+                  }}
+                >
+                  {label} {tags.length !== 1 && `(${tags.length} tags)`}
+                  {tags.length === 1 && `(1 tag)`}
+                </Tag>
+              </div>
+            )
+          )}
         </div>
       )}
     </div>

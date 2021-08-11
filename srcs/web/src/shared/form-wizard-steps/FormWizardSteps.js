@@ -16,14 +16,10 @@ export const FormWizardSteps = () => (
         <React.Fragment key={`${label}-${index}`}>
           <div className={styles.step}>
             <span className={styles['step--number']}>{number}</span>
-            <span className={styles['step--label']}>
-              {label}
-            </span>
+            <span className={styles['step--label']}>{label}</span>
           </div>
 
-          {number !== steps.length && (
-            <div className={styles.stepConnector} />
-          )}
+          {number !== steps.length && <div className={styles.stepConnector} />}
         </React.Fragment>
       )
     })}

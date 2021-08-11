@@ -1,12 +1,12 @@
 const spawn = require('cross-spawn')
 
+// eslint-disable-next-line max-params
 module.exports.exec = async (cmd, args, options, { log } = {}) => {
   log && console.log('$', `"${[cmd, ...(args || [])].join(' ')}"`)
 
   const result = spawn.sync(cmd, args, options)
 
   if (result.error) {
-    throw exportSpawn.error
     process.exit(1)
   }
 

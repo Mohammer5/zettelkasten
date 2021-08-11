@@ -7,12 +7,5 @@ const validate = composeValidators(hasValue, string)
 export const ZettelFieldTitle = () => {
   const { input, meta } = useField('title', { validate })
 
-  return (
-    <InputFieldFF
-      required
-      label="Title"
-      input={input}
-      meta={meta}
-    />
-  )
+  return <InputFieldFF required label="Title" input={input} meta={meta} />
 }

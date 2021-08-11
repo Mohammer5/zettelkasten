@@ -8,13 +8,11 @@ const TAG_CATEGORY_EDIT_UPDATE_TAG_CATEGORY_MUTATION = gql`
     $fontColor: String!
   ) {
     updateTagCategories(
-      where: {
-        id: $id
-      },
+      where: { id: $id }
       update: {
-        label: $label,
-        backgroundColor: $backgroundColor,
-        fontColor: $fontColor,
+        label: $label
+        backgroundColor: $backgroundColor
+        fontColor: $fontColor
       }
     ) {
       tagCategories {

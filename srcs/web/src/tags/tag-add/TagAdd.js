@@ -9,15 +9,16 @@ export const TagAdd = ({ onDone: customOnDone }) => {
   const history = useHistory()
   const onDone = customOnDone || (() => history.goBack())
 
-  const [createTag, {
-    loading: loadingCreateTag,
-    error: errorCreateTag,
-  }] = useTagAddCreateTagMutation()
+  const [createTag, { loading: loadingCreateTag, error: errorCreateTag }] =
+    useTagAddCreateTagMutation()
 
-  const [createTagAndTagCategory, {
-    loading: loadingCreateTagAndTagCategory,
-    error: errorCreateTagAndTagCategory,
-  }] = useTagAddCreateTagAndTagCategoryMutation()
+  const [
+    createTagAndTagCategory,
+    {
+      loading: loadingCreateTagAndTagCategory,
+      error: errorCreateTagAndTagCategory,
+    },
+  ] = useTagAddCreateTagAndTagCategoryMutation()
 
   const loading = loadingCreateTag || loadingCreateTagAndTagCategory
   const error = errorCreateTag || errorCreateTagAndTagCategory

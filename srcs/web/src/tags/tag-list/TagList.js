@@ -10,13 +10,10 @@ export const TagList = () => {
   const history = useHistory()
   const { loading, error, data } = useTagListGetTagsQuery()
 
-  const tags = data?.tagCategories.reduce(
-    (acc, cur) => [...acc, ...cur.tags],
-    []
-  ) || []
+  const tags =
+    data?.tagCategories.reduce((acc, cur) => [...acc, ...cur.tags], []) || []
 
-  const hasUndeletableTags = !!tags.filter(({ zettel }) => zettel.length)
-    .length
+  const hasUndeletableTags = !!tags.filter(({ zettel }) => zettel.length).length
 
   const display = !loading && !error && data
 

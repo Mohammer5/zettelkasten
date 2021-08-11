@@ -15,10 +15,10 @@ const WIZARD_STEP_ZETTEL = 'WIZARD_STEP_ZETTEL'
 export const ZettelAdd = () => {
   const history = useHistory()
 
-  const [createZettel, {
-    loading: loadingCreateZettel,
-    error: errorCreateZettel,
-  }] = useZettelAddCreateZettelMutation()
+  const [
+    createZettel,
+    { loading: loadingCreateZettel, error: errorCreateZettel },
+  ] = useZettelAddCreateZettelMutation()
 
   const loading = loadingCreateZettel
   const error = errorCreateZettel

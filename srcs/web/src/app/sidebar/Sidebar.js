@@ -13,17 +13,11 @@ export const Sidebar = ({ hidden, toggleHidden }) => {
   const routeActiveZettels = useRouteMatch('/zettels')
   const routeActiveKastens = useRouteMatch('/kastens')
 
-  const className = cx(
-    styles.sidebar,
-    { [styles.hidden]: hidden }
-  )
+  const className = cx(styles.sidebar, { [styles.hidden]: hidden })
 
   return (
     <div className={className}>
-      <ToggleHidden
-        hidden={hidden}
-        onToggle={toggleHidden}
-      />
+      <ToggleHidden hidden={hidden} onToggle={toggleHidden} />
 
       <div className={styles.sidebarContents}>
         <Menu>

@@ -2,7 +2,7 @@ const dotenv = require('dotenv')
 const { DOCKER_CONTAINER_NAME } = require('./constants')
 const { exec } = require('./exec')
 
-dotenv.config();
+dotenv.config()
 
 const run = async () => {
   await exec('which', ['docker']).catch(e => {
@@ -11,10 +11,13 @@ const run = async () => {
     process.exit(1)
   })
 
-  const oldContainerID = await exec(
-    'docker',
-    ['ps', '-a', '--filter', `name=${DOCKER_CONTAINER_NAME}`, '-q']
-  )
+  const oldContainerID = await exec('docker', [
+    'ps',
+    '-a',
+    '--filter',
+    `name=${DOCKER_CONTAINER_NAME}`,
+    '-q',
+  ])
 
   if (oldContainerID) {
     console.info('Clean up containers from previous run..')
@@ -22,7 +25,7 @@ const run = async () => {
 
     console.log('')
     console.info('-> SUCCESS <-')
-    console.log(`Stopped container with name "${DOCKER_CONTAINER_NAME}"`);
+    console.log(`Stopped container with name "${DOCKER_CONTAINER_NAME}"`)
   } else {
     console.info('No container from previous run found..')
   }

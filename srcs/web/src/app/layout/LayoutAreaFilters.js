@@ -3,9 +3,7 @@ import React from 'react'
 import styles from './LayoutAreaFilters.module.scss'
 
 export const LayoutAreaFilters = ({ children }) => (
-  <div className={styles.layoutAreaFilters}>
-    {children}
-  </div>
+  <div className={styles.layoutAreaFilters}>{children}</div>
 )
 
 LayoutAreaFilters.propTypes = {

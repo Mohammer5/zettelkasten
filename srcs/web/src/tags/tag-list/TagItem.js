@@ -14,10 +14,9 @@ const DELETE_TAG_MUTATION = gql`
 
 export const TagItem = ({ id, label, hasZettels, category }) => {
   const history = useHistory()
-  const [deleteTag, { loading, error }] = useMutation(
-    DELETE_TAG_MUTATION,
-    { refetchQueries: ['TagsListGetTags'] }
-  )
+  const [deleteTag, { loading, error }] = useMutation(DELETE_TAG_MUTATION, {
+    refetchQueries: ['TagsListGetTags'],
+  })
 
   useEffect(() => {
     if (error) {
@@ -35,15 +34,11 @@ export const TagItem = ({ id, label, hasZettels, category }) => {
       }}
       onClick={() => history.push(`/tags/${id}`)}
       onRemove={
-        !hasZettels
-          ? () => deleteTag({ variables: { id } })
-          : undefined
+        !hasZettels ? () => deleteTag({ variables: { id } }) : undefined
       }
     >
       <div>
-        <span>
-          {label}
-        </span>
+        <span>{label}</span>
 
         {loading && <CircularLoader />}
       </div>

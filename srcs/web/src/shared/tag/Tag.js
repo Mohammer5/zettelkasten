@@ -2,12 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import styles from './Tag.module.scss'
 
-export const Tag = ({
-  children,
-  style,
-  onRemove,
-  onClick,
-}) => (
+export const Tag = ({ children, style, onRemove, onClick }) => (
   <div className={styles.tagContainer}>
     <div
       onClick={onClick}
@@ -17,9 +12,7 @@ export const Tag = ({
         ...(onClick ? { cursor: 'pointer' } : {}),
       }}
     >
-      <span className={styles.label}>
-        {children}
-      </span>
+      <span className={styles.label}>{children}</span>
 
       {onRemove && (
         <span

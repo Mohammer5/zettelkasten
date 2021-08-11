@@ -7,12 +7,5 @@ const validate = composeValidators(hasValue, string)
 export const TagFieldLabel = () => {
   const { input, meta } = useField('label', { validate })
 
-  return (
-    <InputFieldFF
-      required
-      label="Label"
-      input={input}
-      meta={meta}
-    />
-  )
+  return <InputFieldFF required label="Label" input={input} meta={meta} />
 }

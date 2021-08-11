@@ -18,11 +18,6 @@ export const TagCategoryFieldBackgroundColor = () => {
   const { input, meta } = useField('backgroundColor', { validate })
 
   return (
-    <InputFieldFF
-      required
-      label="Background color"
-      input={input}
-      meta={meta}
-    />
+    <InputFieldFF required label="Background color" input={input} meta={meta} />
   )
 }

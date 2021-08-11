@@ -11,20 +11,12 @@ export const TagCategoryFormModal = ({
   onSubmit,
 }) => (
   <Modal>
-    <ModalTitle>
-      {title}
-    </ModalTitle>
+    <ModalTitle>{title}</ModalTitle>
 
     <ModalContent>
-      <Form
-        initialValues={initialValues}
-        onSubmit={onSubmit}
-      >
+      <Form initialValues={initialValues} onSubmit={onSubmit}>
         {({ handleSubmit, pristine }) => (
-          <TagCategoryForm
-            onCancel={onCancel}
-            onSubmit={handleSubmit}
-          />
+          <TagCategoryForm onCancel={onCancel} onSubmit={handleSubmit} />
         )}
       </Form>
     </ModalContent>

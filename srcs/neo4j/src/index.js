@@ -15,10 +15,7 @@ const typeDefs = getTypeDefinitions()
 
 const driver = neo4j.driver(
   process.env.NEO4J_URI,
-  neo4j.auth.basic(
-    process.env.NEO4J_USER,
-    process.env.NEO4J_PASSWORD
-  ),
+  neo4j.auth.basic(process.env.NEO4J_USER, process.env.NEO4J_PASSWORD),
   { encrypted: false }
 )
 
@@ -31,16 +28,13 @@ const server = new ApolloServer({
 })
 
 const PORT = process.env.GRAPHQL_LISTEN_PORT || 4001
-const PATH = "/graphql"
+const PATH = '/graphql'
 const app = express()
 
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }))
 app.use(json({ limit: '500mb' }))
 server.applyMiddleware({ app, path: PATH })
 
-app.listen(
-  { port: PORT, path: PATH },
-  () => console.log(
-    `GraphQL server ready at http://localhost:${PORT}${PATH}`
-  )
+app.listen({ port: PORT, path: PATH }, () =>
+  console.log(`GraphQL server ready at http://localhost:${PORT}${PATH}`)
 )

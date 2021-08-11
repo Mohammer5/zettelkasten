@@ -20,8 +20,9 @@ export const TagAddForm = ({
       }
     } else if (!tagCategory && !tagCategoryNew) {
       return {
-        [FORM_ERROR]:
-          `@TODO: something unexpected happened (${JSON.stringify(values)})`,
+        [FORM_ERROR]: `@TODO: something unexpected happened (${JSON.stringify(
+          values
+        )})`,
       }
     }
 

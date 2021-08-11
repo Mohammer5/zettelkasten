@@ -34,19 +34,13 @@ export const ZettelList = () => {
         </NoticeBox>
       )}
 
-      {!!zettels.length && (
+      {!!zettels.length &&
         zettels.map(({ id, title, content, tags }, index) => (
           <React.Fragment key={id}>
             {index !== 0 && <hr />}
-            <ZettelTeaser
-              id={id}
-              title={title}
-              content={content}
-              tags={tags}
-            />
+            <ZettelTeaser id={id} title={title} content={content} tags={tags} />
           </React.Fragment>
-        ))
-      )}
+        ))}
     </div>
   )
 }

@@ -6,11 +6,13 @@ const TAG_CATEGORY_ADD_CREATE_TAG_CATEGORY_MUTATION = gql`
     $backgroundColor: ID!
     $fontColor: String!
   ) {
-    createTagCategories(input: {
-      label: $label,
-      backgroundColor: $backgroundColor,
-      fontColor: $fontColor
-    }) {
+    createTagCategories(
+      input: {
+        label: $label
+        backgroundColor: $backgroundColor
+        fontColor: $fontColor
+      }
+    ) {
       tagCategories {
         id
       }

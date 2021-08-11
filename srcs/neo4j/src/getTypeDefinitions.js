@@ -1,5 +1,5 @@
-import fs from "fs";
-import path from "path"
+import fs from 'fs'
+import path from 'path'
 
 const readFile = path => fs.readFileSync(path, { encoding: 'utf8' })
 const PATH_SCHEMA = path.join(__dirname, 'schema.graphql')

@@ -12,9 +12,7 @@ export const TagChip = ({ children, style, onClick, onRemove }) => {
     <span className={styles.tagChip} onClick={onClick} style={style}>
       <span className={styles.label}>{children}</span>
 
-      {onRemove && (
-        <span className={styles.remove} onClick={_onRemove} />
-      )}
+      {onRemove && <span className={styles.remove} onClick={_onRemove} />}
     </span>
   )
 }

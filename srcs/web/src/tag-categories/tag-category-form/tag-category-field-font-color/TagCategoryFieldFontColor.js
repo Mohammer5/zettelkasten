@@ -17,12 +17,5 @@ const validate = composeValidators(hasValue, string, isValidHex)
 export const TagCategoryFieldFontColor = () => {
   const { input, meta } = useField('fontColor', { validate })
 
-  return (
-    <InputFieldFF
-      required
-      label="Font color"
-      input={input}
-      meta={meta}
-    />
-  )
+  return <InputFieldFF required label="Font color" input={input} meta={meta} />
 }

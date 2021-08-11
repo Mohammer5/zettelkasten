@@ -15,51 +15,47 @@ export const TagTransferOption = ({
   label,
   value,
 }) => {
-    const doubleClickTimeout = useRef(null)
+  const doubleClickTimeout = useRef(null)
 
-    return (
-      <div
-        data-test={dataTest}
-        onClick={event => {
-          if (disabled) return
+  return (
+    <div
+      data-test={dataTest}
+      onClick={event => {
+        if (disabled) return
 
-          if (doubleClickTimeout.current) {
+        if (doubleClickTimeout.current) {
+          clearTimeout(doubleClickTimeout.current)
+          doubleClickTimeout.current = null
+
+          onDoubleClick({ value }, event)
+        } else {
+          doubleClickTimeout.current = setTimeout(() => {
             clearTimeout(doubleClickTimeout.current)
             doubleClickTimeout.current = null
+          }, DOUBLE_CLICK_MAX_DELAY)
 
-            onDoubleClick({ value }, event)
-          } else {
-            doubleClickTimeout.current = setTimeout(() => {
-              clearTimeout(doubleClickTimeout.current)
-              doubleClickTimeout.current = null
-            }, DOUBLE_CLICK_MAX_DELAY)
-
-            onClick({ value }, event)
-          }
-        }}
-        data-value={value}
-        className={cx(
-          styles.container,
-          className,
-          { highlighted, disabled }
-        )}
-      >
-          {label}
-      </div>
-    )
+          onClick({ value }, event)
+        }
+      }}
+      data-value={value}
+      className={cx(styles.container, className, { highlighted, disabled })}
+    >
+      {label}
+    </div>
+  )
 }
 
 TagTransferOption.defaultProps = {
-    dataTest: 'dhis2-uicore-transferoption',
+  dataTest: 'dhis2-uicore-transferoption',
 }
 
 TagTransferOption.propTypes = {
-    label: PropTypes.any.isRequired,
-    value: PropTypes.string.isRequired,
-    className: PropTypes.string,
-    dataTest: PropTypes.string,
-    disabled: PropTypes.bool,
-    highlighted: PropTypes.bool,
-    onClick: PropTypes.func,
-    onDoubleClick: PropTypes.func,
+  label: PropTypes.any.isRequired,
+  value: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  dataTest: PropTypes.string,
+  disabled: PropTypes.bool,
+  highlighted: PropTypes.bool,
+  onClick: PropTypes.func,
+  onDoubleClick: PropTypes.func,
 }
