@@ -1,11 +1,17 @@
 import { Button } from '@dhis2/ui'
-import React from 'react'
+import React, { useEffect } from 'react'
 import ReactDOM from 'react-dom'
 import { useHistory } from 'react-router-dom'
 import styles from './GlobalLoadingError.module.scss'
 
 export const GlobalLoadingError = ({ error }) => {
   const history = useHistory()
+
+  useEffect(() => {
+    if (error) {
+      console.error(error)
+    }
+  }, [error])
 
   return ReactDOM.createPortal(
     <div className={styles.globalLoadingError}>

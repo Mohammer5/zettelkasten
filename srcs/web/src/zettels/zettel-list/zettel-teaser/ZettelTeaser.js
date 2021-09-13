@@ -2,8 +2,7 @@ import { Button } from '@dhis2/ui'
 import PropTypes from 'prop-types'
 import React from 'react'
 import { useHistory } from 'react-router-dom'
-import /* Markdown, Tag */ '../../../shared'
-import { TagChip } from '../../../tags'
+import { Tag, Markdown } from '../../../shared'
 import styles from './ZettelTeaser.module.scss'
 
 export const ZettelTeaser = ({ id, title, content, tags }) => {
@@ -13,19 +12,26 @@ export const ZettelTeaser = ({ id, title, content, tags }) => {
     <article className={styles.zettelTeaser} id={`zettel-teaser-${id}`}>
       <h1 className={styles.zettelTeaserTitle}>{title}</h1>
 
-      <div>{content}</div>
-
-      {/* <div className={styles.zettelTeaserContent}>
+      <div className={styles.zettelTeaserContent}>
         <Markdown>{content}</Markdown>
-      </div> */}
+      </div>
 
       <div className={styles.zettelTeaserTags}>
-        {tags.map(({ id: tagId, label }) => (
-          <TagChip key={tagId}>{label}</TagChip>
+        {tags.map(({ id: tagId, label, category }) => (
+          <div className={styles.zettelTeaserTag} key={tagId}>
+            <Tag
+              style={{
+                backgroundColor: category.backgroundColor,
+                color: category.fontColor,
+              }}
+            >
+              {label}
+            </Tag>
+          </div>
         ))}
       </div>
 
-      <div>
+      <div className={styles.zettelTeaserActions}>
         <Button onClick={() => history.push(`/zettels/${id}`)}>Edit</Button>
       </div>
     </article>

@@ -6,7 +6,8 @@ const TAG_EDIT_UPDATE_TAG_AND_CREATE_TAG_CATEGORY_MUTATION = gql`
     $label: ID!
     $prevTagCategoryId: ID!
     $tagCategoryLabel: ID!
-    $tagCategoryColor: String!
+    $tagCategoryBackgroundColor: ID!
+    $tagCategoryFontColor: String!
   ) {
     updateTags(
       where: { id: $id }
@@ -14,18 +15,35 @@ const TAG_EDIT_UPDATE_TAG_AND_CREATE_TAG_CATEGORY_MUTATION = gql`
         label: $label
         category: {
           create: {
-            node: { label: $tagCategoryLabel, color: $tagCategoryColor }
+            node: {
+              label: $tagCategoryLabel,
+              backgroundColor: $tagCategoryBackgroundColor,
+              fontColor: $tagCategoryFontColor
+            }
           }
         }
       }
       disconnect: { category: { where: { node: { id: $prevTagCategoryId } } } }
     ) {
       tags {
+        id
         label
+        categoryConnection {
+          edges {
+            node {
+              id
+              label
+              backgroundColor
+              fontColor
+            }
+          }
+        }
       }
     }
   }
 `
 
 export const useTagEditUpdateTagAndCreateTagCategoryMutation = () =>
-  useMutation(TAG_EDIT_UPDATE_TAG_AND_CREATE_TAG_CATEGORY_MUTATION)
+  useMutation(TAG_EDIT_UPDATE_TAG_AND_CREATE_TAG_CATEGORY_MUTATION, {
+    refetchQueries: ['TagEditGetTagQuery']
+  })

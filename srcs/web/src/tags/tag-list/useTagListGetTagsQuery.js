@@ -13,6 +13,9 @@ const TAG_LIST_GET_TAGS_QUERY = gql`
         zettel {
           id
         }
+        zettelConnection {
+          totalCount
+        }
       }
     }
   }

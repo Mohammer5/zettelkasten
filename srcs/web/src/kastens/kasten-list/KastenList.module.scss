@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+
+.kastenSelectionAndOverview {
+  width: 450px;
+  margin-right: 32px;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.kastenStory {
+  flex-grow: 1;
+  height: 100%;
+  overflow: hidden;
+  overflow-y: auto;
+  padding: 16px;
+}
+
+.kastenSelectContainer {
+  display: flex;
+  padding-bottom: 16px;
+  justify-content: space-between;
+}
+
+.kastenSelectWrapper {
+  max-width: 350px;
+}

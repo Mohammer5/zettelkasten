@@ -1,22 +1,12 @@
-import { gql, useMutation } from '@apollo/client'
 import { CircularLoader } from '@dhis2/ui'
 import React, { useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 import { Tag } from '../../shared'
+import { useTagListItemDeleteTagMutation } from './useTagListItemDeleteTagMutation'
 
-const DELETE_TAG_MUTATION = gql`
-  mutation TagsListDeleteTag($id: ID!) {
-    deleteTags(where: { id: $id }) {
-      nodesDeleted
-    }
-  }
-`
-
-export const TagItem = ({ id, label, hasZettels, category }) => {
+export const TagItem = ({ id, children, hasZettels, category }) => {
   const history = useHistory()
-  const [deleteTag, { loading, error }] = useMutation(DELETE_TAG_MUTATION, {
-    refetchQueries: ['TagsListGetTags'],
-  })
+  const [deleteTag, { loading, error }] = useTagListItemDeleteTagMutation()
 
   useEffect(() => {
     if (error) {
@@ -27,7 +17,6 @@ export const TagItem = ({ id, label, hasZettels, category }) => {
 
   return (
     <Tag
-      key={id}
       style={{
         background: category.backgroundColor,
         color: category.fontColor,
@@ -38,7 +27,7 @@ export const TagItem = ({ id, label, hasZettels, category }) => {
       }
     >
       <div>
-        <span>{label}</span>
+        <span>{children}</span>
 
         {loading && <CircularLoader />}
       </div>

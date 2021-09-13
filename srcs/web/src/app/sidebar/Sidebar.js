@@ -1,23 +1,26 @@
 import { Menu, MenuItem } from '@dhis2/ui'
-import React from 'react'
+import React, { useState } from 'react'
 import { useHistory, useRouteMatch } from 'react-router-dom'
 import cx from 'classnames'
 import { ToggleHidden } from './toggle-hidden'
 import styles from './Sidebar.module.scss'
 
-export const Sidebar = ({ hidden, toggleHidden }) => {
+export const Sidebar = () => {
   const history = useHistory()
-  console.log('history', history)
-  const routeActiveTagCategories = useRouteMatch('/tagCategories')
-  const routeActiveTags = useRouteMatch('/tags')
-  const routeActiveZettels = useRouteMatch('/zettels')
-  const routeActiveKastens = useRouteMatch('/kastens')
+  const [hidden, setHidden] = useState(true)
+  const routeActiveTagCategories = !!useRouteMatch('/tagCategories')
+  const routeActiveTags = !!useRouteMatch('/tags')
+  const routeActiveZettels = !!useRouteMatch('/zettels')
+  const routeActiveKastens = !!useRouteMatch('/kastens')
 
   const className = cx(styles.sidebar, { [styles.hidden]: hidden })
 
   return (
     <div className={className}>
-      <ToggleHidden hidden={hidden} onToggle={toggleHidden} />
+      <ToggleHidden
+        hidden={hidden}
+        onToggle={() => setHidden(!hidden)}
+      />
 
       <div className={styles.sidebarContents}>
         <Menu>

@@ -10,7 +10,8 @@ const ZETTEL_LIST_GET_ZETTELS_QUERY = gql`
         id
         label
         category {
-          color
+          backgroundColor
+          fontColor
         }
       }
     }

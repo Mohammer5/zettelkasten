@@ -14,7 +14,7 @@ const driver = neo4j.driver(
 )
 
 const tagsAndTagCategoriesCypher = fs.readFileSync(
-  path.join(__dirname, 'seed-tags-and-tag-categories.cypher'),
+  path.join(__dirname, 'seed.cypher'),
   { encoding: 'utf8' }
 )
 

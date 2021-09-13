@@ -40,7 +40,6 @@ export const TagEdit = () => {
   }
   const onSubmit = async values => {
     console.log('values', values)
-    return Promise.reject('ERROR!')
 
     // eslint-disable-next-line no-unreachable
     const { label, tagCategory, tagCategoryNew } = values
@@ -59,11 +58,13 @@ export const TagEdit = () => {
       variables.prevTagCategoryId = tag.category.id
     } else if (tagCategoryNew) {
       variables.tagCategoryLabel = tagCategoryNew.label
-      variables.tagCategoryColor = tagCategoryNew.color
+      variables.tagCategoryBackgroundColor = tagCategoryNew.backgroundColor
+      variables.tagCategoryFontColor = tagCategoryNew.fontColor
       variables.prevTagCategoryId = tag.category.id
     }
 
-    await mutator({ variables })
+    console.log('variables', variables)
+    await mutator({ variables }).then(console.log.bind(null, 'result'))
     history.push('/tags')
   }
 

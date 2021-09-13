@@ -1,0 +1,44 @@
+input InputLinkZettel {
+  position: Int!
+  zettelId: ID!
+  kastenId: ID!
+}
+
+type Mutation {
+  linkZettel(input: InputLinkZettel): Kasten
+    @cypher(statement: """
+      // Adjust index of all remaining following positions
+      MATCH toMove=()-[toMoveRel:IN_KASTEN]->(kasten:Kasten { id: $input.kastenId })
+      WHERE toMoveRel.position >= $input.from
+      FOREACH (r IN relationships(toMove) | SET r.position = r.position + 1)
+
+      MATCH (zettel:Zettel { id: $input.zettelId })
+      MERGE (zettel)-[:IN_KASTEN { position: $input.position }]->(kasten)
+
+      // Return amount of adjusted nodes
+      RETURN kasten
+    """)
+}
+
+input InputUnlinkFromKasten {
+  position: Int!
+  kastenId: ID!
+}
+
+extend type Mutation {
+  unlinkFromKasten(input: InputUnlinkFromKasten): Zettel
+    @cypher(statement: """
+      // Delete position
+      MATCH (zettel)-[toDeleteRel:IN_KASTEN { position: $input.position }]->(:Kasten { id: $input.kastenId })
+      DELETE toDeleteRel
+
+      // Adjust index of all remaining following positions
+      WITH zettel,toDeleteRel
+      MATCH following=()-[toMoveRel:IN_KASTEN]->(:Kasten { id: $input.kastenId })
+      WHERE toMoveRel.position > $input.position
+      FOREACH (r IN relationships(following) | SET r.position = r.position - 1)
+
+      // Return amount of adjusted nodes
+      RETURN zettel
+    """)
+}

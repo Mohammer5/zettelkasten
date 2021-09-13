@@ -67,7 +67,7 @@ export const App = () => (
               component={TagCategoryEdit}
             />
 
-            <Route component={() => <Redirect to="/tagCategories" />} />
+            <Route component={() => <Redirect to="/kastens" />} />
           </Switch>
         </LayoutAreaContent>
       </Layout>

@@ -38,6 +38,7 @@ CREATE
   (tagCategory1)<-[:HAS_CATEGORY]-(tag18),
   (tag19:Tag { id: "tag19", label: "Venezuela" }),
   (tagCategory1)<-[:HAS_CATEGORY]-(tag19),
+
   (tagCategory2:TagCategory { id: "tag-category1", label: "Topic", backgroundColor: "#509739", fontColor: "#ffffff" }),
   (tag20:Tag { id: "tag20", label: "9/11" }),
   (tagCategory2)<-[:HAS_CATEGORY]-(tag20),
@@ -107,9 +108,57 @@ CREATE
   (tagCategory2)<-[:HAS_CATEGORY]-(tag52),
   (tag53:Tag { id: "tag53", label: "Waste" }),
   (tagCategory2)<-[:HAS_CATEGORY]-(tag53),
-  (tagCategory3:TagCategory { id: "tag-category-2", label: "Languages", backgroundColor: "#c377e0", fontColor: "#ffffff" }),
+
+  (tagCategory3:TagCategory { id: "tag-category2", label: "Languages", backgroundColor: "#c377e0", fontColor: "#ffffff" }),
   (tag54:Tag { id: "tag54", label: "English" }),
   (tagCategory3)<-[:HAS_CATEGORY]-(tag54),
   (tag55:Tag { id: "tag55", label: "German" }),
-  (tagCategory3)<-[:HAS_CATEGORY]-(tag55)
-RETURN null
+  (tagCategory3)<-[:HAS_CATEGORY]-(tag55),
+
+  (tagCategory4:TagCategory { id: "tag-category3", label: "Content type", backgroundColor: "#eb5a46", fontColor: "#ffffff" }),
+  (tag56:Tag { id: "tag56", label: "Short documentary" }),
+  (tagCategory4)<-[:HAS_CATEGORY]-(tag56),
+  (tag57:Tag { id: "tag57", label: "Documentary" }),
+  (tagCategory4)<-[:HAS_CATEGORY]-(tag57),
+
+  (zettel1:Zettel {
+    id: "zettel1",
+    title: "China's Geography Problem (English)",
+    content: "* Link: https://www.youtube.com/watch?v=GiBF6v5UAAE
+* Author: Wendover Productions"
+  }),
+  (zettel1)-[:HAS]->(tag4),
+  (zettel1)-[:HAS]->(tag30),
+  (zettel1)-[:HAS]->(tag54),
+  (zettel1)-[:HAS]->(tag56),
+
+
+  (zettel2:Zettel {
+    id: "zettel2",
+    title: "9/11 Trillions: Follow The Money",
+    content: "* Link: https://www.youtube.com/watch?v=n3xgjxJwedA
+* Author: Corbett Report
+* Release: 11.09.2015"
+  }),
+  (zettel2)-[:HAS]->(tag18),
+  (zettel2)-[:HAS]->(tag20),
+  (zettel2)-[:HAS]->(tag54),
+  (zettel2)-[:HAS]->(tag57),
+
+  (zettel3:Zettel {
+    id: "zettel3",
+    title: "What You Are Not Being Told About the Afghanistan War",
+    content: "* Link: https://www.youtube.com/watch?v=jUvgnt-cOqI
+* Author: Corbettreport"
+  })
+  (zettel3)-[:HAS]->(tag1),
+  (zettel3)-[:HAS]->(tag11),
+  (zettel3)-[:HAS]->(tag30),
+  (zettel3)-[:HAS]->(tag41),
+  (zettel3)-[:HAS]->(tag50),
+  (zettel3)-[:HAS]->(tag54),
+
+  (kasten1:Kasten { id: 'kasten1', label: "Erster Kasten" }),
+  (kasten1)<-[:IN_KASTEN { position: 0 }]-(zettel2),
+  (kasten1)<-[:IN_KASTEN { position: 1 }]-(zettel1)
+ETURN null

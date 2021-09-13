@@ -17,6 +17,7 @@
     "react": "16",
     "react-dom": "16",
     "react-final-form": "^6.5.3",
+    "react-icons": "^4.2.0",
     "react-markdown": "^6.0.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",

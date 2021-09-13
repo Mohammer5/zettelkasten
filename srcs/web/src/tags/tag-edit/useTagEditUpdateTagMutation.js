@@ -14,7 +14,12 @@ const TAG_EDIT_UPDATE_TAG_MUTATION = gql`
       connect: { category: { where: { node: { id: $tagCategoryId } } } }
     ) {
       tags {
+        id
         label
+        category {
+          id
+          label
+        }
       }
     }
   }

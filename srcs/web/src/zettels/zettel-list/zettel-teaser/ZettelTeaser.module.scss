@@ -37,7 +37,19 @@
 }
 
 .zettelTeaserTags {
+  display: flex;
+  border-top: 1px solid rgba($base03, 0.4);
+  border-bottom: 1px solid rgba($base03, 0.4);
+  flex-wrap: wrap;
   grid-area: tags;
   padding: 7px;
   // border-top: 1px solid rgba($base03, 0.4);
+}
+
+.zettelTeaserTag {
+  margin: 0 4px 4px 0;
+}
+
+.zettelTeaserActions {
+  padding: 8px;
 }

@@ -39,19 +39,22 @@ export const TagList = () => {
 
       {display && (
         <div className={styles.tags}>
-          {tags.map(({ id, label, zettel, category }) => (
-            <div className={styles.tag}>
-              <TagItem
-                key={id}
-                id={id}
-                label={label}
-                hasZettels={!!zettel.length}
-                category={category}
-              >
-                {label}
-              </TagItem>
-            </div>
-          ))}
+          {tags.map(({ id, label, zettel, category, zettelConnection }) => {
+            const { totalCount } = zettelConnection
+
+            return (
+              <div className={styles.tag} key={id}>
+                <TagItem
+                  id={id}
+                  hasZettels={!!zettel.length}
+                  category={category}
+                >
+                  {label}
+                  {totalCount ? ` (${totalCount})` : ''}
+                </TagItem>
+              </div>
+            )
+          })}
         </div>
       )}
     </div>

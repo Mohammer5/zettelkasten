@@ -1,6 +1,7 @@
 @import "../../styleguide/colors.scss";
 
 $tagHeight: 24px;
+$tagHeightMini: 8px;
 $tagRemoveDiameter: 16px;
 
 .tagContainer {
@@ -10,10 +11,10 @@ $tagRemoveDiameter: 16px;
 .tag {
   flex-shrink: 1;
   display: flex;
-  height: $tagHeight;
   white-space: nowrap;
   padding: 0 8px;
-  line-height: 24px;
+  height: $tagHeight;
+  line-height: $tagHeight;
   font-size: 14px;
   background: $orange;
   margin-right: 5px;
@@ -23,6 +24,13 @@ $tagRemoveDiameter: 16px;
 
   &:last-child {
     margin-right: 0;
+  }
+
+  &.mini {
+    height: $tagHeightMini;
+    line-height: $tagHeightMini;
+    width: 20px;
+  border-radius: $tagHeightMini / 2;
   }
 }
 
